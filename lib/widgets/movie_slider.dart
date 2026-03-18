@@ -10,12 +10,12 @@ class MovieSlider extends StatelessWidget {
     return Container(
       height: size.height * 0.3,
       width: double.infinity,
-      color: Colors.white,
+      //color: Colors.white,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(padding: EdgeInsets.all(10)),
-          Text('peliculas de dramas', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black, ),),
+          Text('peliculas de dramas', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white, ),),
           Expanded(
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
@@ -38,7 +38,7 @@ class _Movies extends StatelessWidget {
     return Container(
       height: 100,
       width: 130,
-      color: Colors.white,
+      //color: Colors.white,
       margin: EdgeInsets.symmetric(horizontal: 10,),
       child: Column(
         children: [
@@ -57,7 +57,7 @@ class _Movies extends StatelessWidget {
             ),
           ),
           SizedBox(height: 10,),
-          Text('Godzilla', style: TextStyle(color: Colors.black),
+          Text('Godzilla', style: TextStyle(color: Colors.white),
           overflow: TextOverflow.ellipsis,
           maxLines: 2,
           textAlign: TextAlign.center,

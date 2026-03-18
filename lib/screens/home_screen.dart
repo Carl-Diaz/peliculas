@@ -16,7 +16,7 @@ class HomeScreen extends StatelessWidget {
           }, icon: Icon(Icons.search), color: Colors.white,)
         ],
         centerTitle: true,
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.black,
       ),
       body: Column(
         children: [
