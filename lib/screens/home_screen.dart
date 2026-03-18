@@ -1,5 +1,5 @@
 
-import 'package:peliculas/barril/barril.dart';
+import 'package:peliculas/export_route/exports.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

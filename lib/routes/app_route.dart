@@ -1,4 +1,4 @@
-import 'package:peliculas/barril/barril.dart';
+import 'package:peliculas/export_route/exports.dart';
 
 class AppRoute {
   static String initialroute = '/';
