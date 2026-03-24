@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:peliculas/export_route/exports.dart';
 import 'package:peliculas/widgets/info_movie.dart';
 
 class DetailsScreen extends StatelessWidget {
@@ -6,15 +7,27 @@ class DetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String movie =
-        ModalRoute.of(context)?.settings.arguments.toString() ?? 'no-movie';
+    final Map<String, dynamic> movie =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          _CustomAppBar(),
+          _CustomAppBar(
+            movieTitle: movie["movie_title"],
+            portada: movie["portada"],
+          ),
           //Text('second child', style: TextStyle(color: Colors.black),)
           SliverList(
-            delegate: SliverChildListDelegate([_PosterMovie(), _InfoMovie(), InfoMovie()]),
+            delegate: SliverChildListDelegate([
+              _PosterMovie(
+                miniPortada: movie["portada"],
+                tituloOriginal: movie["original_title"],
+                subtitulo: movie["movie_title"],
+                puntuacion: movie["vote_average"],
+              ),
+              _InfoMovie(sinopsis: movie["sinopsis"],),
+              MovieSlider(dataMovie: movie["results"]),
+            ]),
           ),
         ],
       ),
@@ -23,6 +36,8 @@ class DetailsScreen extends StatelessWidget {
 }
 
 class _InfoMovie extends StatelessWidget {
+  String sinopsis;
+  _InfoMovie({required this.sinopsis});
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -33,11 +48,17 @@ class _InfoMovie extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             spacing: 10,
             children: [
-              SizedBox(height: 10,),
-              Text('Sinopsis', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20), ),
-              Text('Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', textAlign: TextAlign.justify, ),
+              SizedBox(height: 10),
+              Text(
+                'Sinopsis',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              ),
+              Text(
+                sinopsis,
+                textAlign: TextAlign.justify,
+              ),
+
               //InfoMovie()
-      
             ],
           ),
         ),
@@ -47,6 +68,17 @@ class _InfoMovie extends StatelessWidget {
 }
 
 class _PosterMovie extends StatelessWidget {
+  String miniPortada;
+  String subtitulo;
+  String tituloOriginal;
+  double puntuacion;
+
+  _PosterMovie({
+    required this.miniPortada,
+    required this.subtitulo,
+    required this.tituloOriginal,
+    required this.puntuacion,
+  });
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -56,7 +88,9 @@ class _PosterMovie extends StatelessWidget {
         children: [
           FadeInImage(
             placeholder: AssetImage('assets/valverde.jpg'),
-            image: NetworkImage('https://picsum.photos/300/500'),
+            image: NetworkImage(
+              "https://image.tmdb.org/t/p/w600_and_h900_face" + miniPortada,
+            ),
             height: 150,
           ),
           SizedBox(width: 15),
@@ -64,16 +98,16 @@ class _PosterMovie extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Movie Title',
+                subtitulo,
                 style: Theme.of(context).textTheme.titleLarge,
                 overflow: TextOverflow.ellipsis,
               ),
-              Text('Original Title', overflow: TextOverflow.ellipsis),
+              Text(tituloOriginal, overflow: TextOverflow.ellipsis),
               Row(
                 spacing: 5,
                 children: [
                   Icon(Icons.star, color: Colors.amber),
-                  Text("8.3"),
+                  Text("${puntuacion}"),
                   Text('Average'),
                 ],
               ),
@@ -86,6 +120,9 @@ class _PosterMovie extends StatelessWidget {
 }
 
 class _CustomAppBar extends StatelessWidget {
+  String portada;
+  String movieTitle;
+  _CustomAppBar({required this.portada, required this.movieTitle});
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
@@ -100,13 +137,15 @@ class _CustomAppBar extends StatelessWidget {
           alignment: Alignment.bottomCenter,
           color: Colors.black26,
           child: Text(
-            'Movie-title',
+            movieTitle,
             style: TextStyle(fontSize: 18, color: Colors.white),
           ),
         ),
         background: FadeInImage(
           placeholder: AssetImage('assets/valverde.jpg'),
-          image: NetworkImage('https://picsum.photos/500/300'),
+          image: NetworkImage(
+            "https://image.tmdb.org/t/p/w600_and_h900_face" + portada,
+          ),
           fit: BoxFit.cover,
         ),
       ),

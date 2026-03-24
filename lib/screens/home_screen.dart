@@ -1,5 +1,5 @@
-
 import 'package:peliculas/export_route/exports.dart';
+import 'package:peliculas/provider/app_provider.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -7,23 +7,31 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       appBar: AppBar(
-        title: Text('Peliculas en carteleras', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+        title: Text(
+          'Peliculas en carteleras',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
         actions: [
-          IconButton(onPressed: (){
-
-          }, icon: Icon(Icons.search), color: Colors.white,)
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.search),
+            color: Colors.white,
+          ),
         ],
         centerTitle: true,
         backgroundColor: Colors.black,
       ),
-      body: Column(
-        children: [
-          CardSwiper(),
-          MovieSlider()
-
-        ],
+      body: Center(
+        child: FutureBuilder(
+          future: AppProvider.getApi(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Column(children: [CardSwiper(image: snapshot.data!['results']), MovieSlider(dataMovie: snapshot.data!["results"],)]);
+            }
+            return CircularProgressIndicator();
+          },
+        ),
       ),
     );
   }

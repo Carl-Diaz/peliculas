@@ -2,31 +2,37 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 
 class CardSwiper extends StatelessWidget {
-  const CardSwiper({super.key});
+  final List image;
+  const CardSwiper({super.key, required this.image});
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(context, '/details');
-      },
-      child: SizedBox(
-        height: size.height * 0.4,
-        width: double.infinity,
-        child: Swiper(
-          pagination: SwiperPagination(),
-          autoplay: true,
-          itemCount: 8,
-          layout: SwiperLayout.STACK,
-          itemWidth: size.width * 1.0,
-          itemHeight: size.height * 0.6,
-          itemBuilder: (context, index) => FadeInImage(
+    return SizedBox(
+      height: size.height * 0.5,
+      width: double.infinity,
+      child: Swiper(
+        pagination: SwiperPagination(),
+        autoplay: true,
+        itemCount: image.length,
+        layout: SwiperLayout.STACK,
+        itemWidth: size.width * 1.0,
+        itemHeight: size.height * 0.6,
+        itemBuilder: (context, index) => GestureDetector(
+          onTap: () {
+            Navigator.pushNamed(context, "/details", arguments: 
+            {"portada":"https://image.tmdb.org/t/p/w600_and_h900_face" +image[index]["backdrop_path"], 
+            "movie_title":image[index]["title"],
+            "original_title":image[index]["original_title"],
+            "sinopsis":image[index]["overview"],
+            "vote_average":image[index]["vote_average"],
+            "results":image});
+          },
+          child: FadeInImage(
             fit: BoxFit.cover,
             placeholder: AssetImage('assets/valverde.jpg'),
             image: NetworkImage(
-              'https://platform.managingmadrid.com/wp-content/uploads/sites/103/2026/03/gettyimages-2266009518.jpg?quality=90&strip=all&crop=0.0050000000000026%2C0%2C99.99%2C100&w=2400',
-              
+              "https://image.tmdb.org/t/p/w600_and_h900_face" +image[index]["backdrop_path"],
             ),
           ),
         ),

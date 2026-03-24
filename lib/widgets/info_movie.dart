@@ -15,9 +15,9 @@ class InfoMovie extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(padding: EdgeInsets.all(10)),
-          Text('Actores - reparto', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.black, ),
+          Text('Recomendadas', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.white, ),
           ),
-          SizedBox(height: 0,),
+          SizedBox(height: 15,),
           Expanded(
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
@@ -52,6 +52,7 @@ class _Info extends StatelessWidget {
                 image: NetworkImage('https://picsum.photos/300/400'),
                 fit: BoxFit.cover,),
             ),
+
           
           SizedBox(height: 10,),
           Text('Actor', style: TextStyle(color: Colors.white),
